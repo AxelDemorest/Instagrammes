@@ -44,6 +44,11 @@ class User
      */
     private $posts;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Password;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
@@ -128,6 +133,18 @@ class User
                 $post->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->Password;
+    }
+
+    public function setPassword(string $Password): self
+    {
+        $this->Password = $Password;
 
         return $this;
     }

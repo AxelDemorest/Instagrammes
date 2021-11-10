@@ -21,12 +21,24 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, SessionInterface $session): Response
     {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
+            return $this->render('user/index.html.twig', [
+                'users' => $userRepository->findAll(),
+            ]);
+
     }
+
+    /**
+     * @Route("/deconnexion", name="user_deconnexion", methods={"GET"})
+     */
+    public function deco(SessionInterface $session): Response
+    {
+        $session->remove("login");
+        return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
+
+    }
+
 
     /**
      * @Route("/register", name="user_new", methods={"GET","POST"})
@@ -56,7 +68,9 @@ class UserController extends AbstractController
      */
     public function connexion(Request $request, SessionInterface $session): Response
     {
-        $session->remove("login");
+        if($session->has("login")) {
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
+        }
         $user = new User();
         $form = $this->createForm(UserConnexionType::class, $user);
         $form->handleRequest($request);
@@ -73,8 +87,9 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $session->set("login", $user->getNickname());
-            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+
+            $session->set("login", $find_user->getId());
+            return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('connexion/connexion.html.twig', [
