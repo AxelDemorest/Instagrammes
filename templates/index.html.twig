@@ -18,7 +18,13 @@
                     </svg>
                 </div>
                 <div class="profile-icon">
-                    <img class="rounded-full" alt="photo" width="25px" height="25px" data-testid="user-avatar" draggable="false" src="/img/fathead.png">
+                    <a href="{{ path('user_show', {'Nickname': user.Nickname}) }}">
+                    {% if user.ProfilePicture %}
+                        <img class="rounded-full" alt="photo" width="25px" height="25px" data-testid="user-avatar" draggable="false" src="{{ user.ProfilePicture }}">
+                    {% else %}
+                        <img class="rounded-full" alt="photo" width="25px" height="25px" data-testid="user-avatar" draggable="false" src="/img/fathead.png">
+                    {% endif %}
+                    </a>
                 </div>
             </div>
         </div>

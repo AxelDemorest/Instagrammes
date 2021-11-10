@@ -21,7 +21,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(UserRepository $userRepository, SessionInterface $session): Response
     {
             return $this->render('user/index.html.twig', [
                 'users' => $userRepository->findAll(),
@@ -38,6 +38,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
 
     }
+
 
     /**
      * @Route("/register", name="user_new", methods={"GET","POST"})
@@ -86,7 +87,8 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $session->set("login", $user->getId());
+
+            $session->set("login", $find_user->getId());
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
         }
 
