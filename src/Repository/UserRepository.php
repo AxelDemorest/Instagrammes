@@ -51,7 +51,7 @@ class UserRepository extends ServiceEntityRepository
 
     // Find/search user by nickname
 
-    public function findUserByName(string $query)
+    public function findUserByNickName(string $query)
     {
         $qb = $this->createQueryBuilder('u');
         $qb

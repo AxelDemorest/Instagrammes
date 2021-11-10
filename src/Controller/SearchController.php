@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
-use Composer\DependencyResolver\Request;
-use Doctrine\DBAL\Types\TextType;
+use App\Repository\UserRepository;
+#use Composer\DependencyResolver\Request;
+#use Doctrine\DBAL\Types\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends AbstractController
 {
@@ -21,12 +24,19 @@ class SearchController extends AbstractController
         ]);
     }
 
-    public function searchBar()
+    public function searchBar(): Response
     {
-        $form = $this->createFormBuilder()
-            ->setAction($this->generateUrl('handleSearch'))
-            ->add('query', TextType::class)
-            ->add('search', SubmitType::class, [
+        $form = $this->createFormBuilder(null)
+
+            ->add('Recherche', TextType::class, [
+                'label' =>false,
+        'attr' => [
+            'placeholder' => 'Recherche'
+            ]
+    ])
+
+            ->add('Ok', SubmitType::class, [
+                'label' =>false,
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]
@@ -40,12 +50,15 @@ class SearchController extends AbstractController
     /**
      * @Route("/handleSearch", name="handleSearch")
      * @param Request $request
+     * @param UserRepository $repo
+     * @return Response
      */
-    public function handleSearch(Request $request, UserRepository $repo)
+
+    public function handleSearch(Request $request, UserRepository $repo): Response
     {
-        $query = $request->request->get('form')['query'];
+        $query = $request->request->get('form')['Recherche'];
         if($query) {
-            $users = $repo->findUserByName($query);
+            $users = $repo->findUserByNickName($query);
         }
         return $this->render('search/index.html.twig', [
             'Pseudo' => $users
