@@ -3,11 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserConnexionType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,12 +24,12 @@ class UserController extends AbstractController
     public function index(UserRepository $userRepository): Response
     {
         return $this->render('user/index.html.twig', [
-            'connexion' => $userRepository->findAll(),
+            'users' => $userRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route("/new", name="user_new", methods={"GET","POST"})
+     * @Route("/register", name="user_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -49,13 +52,50 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/connexion", name="user_connexion", methods={"GET","POST"})
+     */
+    public function connexion(Request $request, SessionInterface $session): Response
+    {
+        $session->remove("login");
+        $user = new User();
+        $form = $this->createForm(UserConnexionType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $find_user = $entityManager->getRepository(User::class)->findOneBy(array('Nickname' => $user->getNickname()));
+            if(!isset($find_user)) {
+                $error = new FormError("Utilisateur non trouvé.");
+                $form->addError($error);
+                return $this->renderForm('connexion/connexion.html.twig', [
+                    'user' => $user,
+                    'form' => $form,
+                ]);
+            }
+
+            $session->set("login", $user->getNickname());
+            return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('connexion/connexion.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
+    }
+
+    /**
      * @Route("/{id}", name="user_show", methods={"GET"})
      */
-    public function show(User $user): Response
+    public function show(User $user, SessionInterface $session): Response
     {
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
+        if($session->has("login")) {
+            return $this->render('user/show.html.twig', [
+                'user' => $user,
+            ]);
+        } else {
+            return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
+        }
+
     }
 
     /**
