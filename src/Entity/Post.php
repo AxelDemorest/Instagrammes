@@ -25,11 +25,6 @@ class Post
     private $Picture;
 
     /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="post")
-     */
-    private $Author;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $Likes;
@@ -49,9 +44,15 @@ class Post
      */
     private $Localisation;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Author;
+
     public function __construct()
     {
-        $this->Author = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -67,36 +68,6 @@ class Post
     public function setPicture(string $Picture): self
     {
         $this->Picture = $Picture;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getAuthor(): Collection
-    {
-        return $this->Author;
-    }
-
-    public function addAuthor(User $author): self
-    {
-        if (!$this->Author->contains($author)) {
-            $this->Author[] = $author;
-            $author->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAuthor(User $author): self
-    {
-        if ($this->Author->removeElement($author)) {
-            // set the owning side to null (unless already changed)
-            if ($author->getPost() === $this) {
-                $author->setPost(null);
-            }
-        }
 
         return $this;
     }
@@ -145,6 +116,18 @@ class Post
     public function setLocalisation(?string $Localisation): self
     {
         $this->Localisation = $Localisation;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->Author;
+    }
+
+    public function setAuthor(?User $Author): self
+    {
+        $this->Author = $Author;
 
         return $this;
     }
