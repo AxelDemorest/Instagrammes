@@ -30,7 +30,17 @@ class User
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Password;
+    private $ProfilePicture;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $biography;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Post::class, inversedBy="Author")
+     */
+    private $post;
 
     public function getId(): ?int
     {
@@ -61,14 +71,38 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getProfilePicture(): ?string
     {
-        return $this->Password;
+        return $this->ProfilePicture;
     }
 
-    public function setPassword(string $Password): self
+    public function setProfilePicture(string $ProfilePicture): self
     {
-        $this->Password = $Password;
+        $this->ProfilePicture = $ProfilePicture;
+
+        return $this;
+    }
+
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(string $biography): self
+    {
+        $this->biography = $biography;
+
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
 
         return $this;
     }

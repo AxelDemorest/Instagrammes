@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,24 +25,34 @@ class Post
     private $Picture;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="post")
      */
     private $Author;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $Description;
-
-    /**
-     * @ORM\Column(type="date")
-     */
-    private $Date;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $Likes;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $Date;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $Localisation;
+
+    public function __construct()
+    {
+        $this->Author = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,26 +71,44 @@ class Post
         return $this;
     }
 
-    public function getAuthor(): ?string
+    /**
+     * @return Collection|User[]
+     */
+    public function getAuthor(): Collection
     {
         return $this->Author;
     }
 
-    public function setAuthor(string $Author): self
+    public function addAuthor(User $author): self
     {
-        $this->Author = $Author;
+        if (!$this->Author->contains($author)) {
+            $this->Author[] = $author;
+            $author->setPost($this);
+        }
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function removeAuthor(User $author): self
     {
-        return $this->Description;
+        if ($this->Author->removeElement($author)) {
+            // set the owning side to null (unless already changed)
+            if ($author->getPost() === $this) {
+                $author->setPost(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setDescription(?string $Description): self
+    public function getLikes(): ?int
     {
-        $this->Description = $Description;
+        return $this->Likes;
+    }
+
+    public function setLikes(int $Likes): self
+    {
+        $this->Likes = $Likes;
 
         return $this;
     }
@@ -95,14 +125,26 @@ class Post
         return $this;
     }
 
-    public function getLikes(): ?int
+    public function getDescription(): ?string
     {
-        return $this->Likes;
+        return $this->description;
     }
 
-    public function setLikes(int $Likes): self
+    public function setDescription(string $description): self
     {
-        $this->Likes = $Likes;
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->Localisation;
+    }
+
+    public function setLocalisation(?string $Localisation): self
+    {
+        $this->Localisation = $Localisation;
 
         return $this;
     }
