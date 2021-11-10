@@ -12,7 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController{
-    public function index(PostRepository $postRepository){
+    public function index(PostRepository $postRepository): Response
+    {
         return $this->render('index.html.twig', [
             'posts' => $postRepository->findAll(),
         ]);
