@@ -1,8 +1,29 @@
 {% extends 'layout.html.twig' %}
-%
+
 
 {% block body %}
-    <body class="relative bg-gray-200 h-full">
+    <nav class="border-b py-3 sticky top-0 bg-white z-50">
+        <div class="container mx-auto flex justify-between">
+            <div class="logo">
+                <h1 class="font-bold text-xl">
+                    <img src="https://www.instagram.com/static/images/web/mobile_nav_type_logo.png/735145cfe0a4.png" alt="">
+                </h1>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="search" class="border px-1 text-sm bg-gray-200 rounded-sm" />
+            </div>
+            <div class="icons flex">
+                <div class="home-icon mr-6">
+                    <svg aria-label="Home" class="_8-yf5 " fill="#262626" height="22" viewBox="0 0 48 48" width="22">
+                        <path d="M45.5 48H30.1c-.8 0-1.5-.7-1.5-1.5V34.2c0-2.6-2.1-4.6-4.6-4.6s-4.6 2.1-4.6 4.6v12.3c0 .8-.7 1.5-1.5 1.5H2.5c-.8 0-1.5-.7-1.5-1.5V23c0-.4.2-.8.4-1.1L22.9.4c.6-.6 1.6-.6 2.1 0l21.5 21.5c.3.3.4.7.4 1.1v23.5c.1.8-.6 1.5-1.4 1.5z"></path>
+                    </svg>
+                </div>
+                <div class="profile-icon">
+                    <img class="rounded-full" alt="photo" width="25px" height="25px" data-testid="user-avatar" draggable="false" src="/img/fathead.png">
+                </div>
+            </div>
+        </div>
+    </nav>
     <div class="page-content pt-6 h-full">
         <div class="container mx-auto flex justify-center h-full">
             <div class="w-8/12 pr-4">
@@ -13,11 +34,17 @@
                                 <div class="header border-b p-4 flex justify-between items-center">
                                     <div class="flex flex-row items-center">
                                         <div class="user-img h-10 w-10 border rounded-full overflow-hidden mr-4">
-                                            <img alt="pp" class="_6q-tv" data-testid="user-avatar" draggable="false" src="https://scontent-nrt1-1.cdninstagram.com/v/t51.2885-19/s150x150/20635165_1942203892713915_5464937638928580608_a.jpg?_nc_ht=scontent-nrt1-1.cdninstagram.com&_nc_ohc=JK-0WwYKXBgAX-mFP6I&oh=e0d86b1c4be3cea94e341f18e17905b3&oe=5F94C764">
+                                            {% if post.author.ProfilePicture != '' %}
+                                                <img alt="pp" class="_6q-tv" data-testid="user-avatar" draggable="false" src="{{ post.author.ProfilePicture }}">
+                                            {% else %}
+                                                <img alt="pp" class="_6q-tv" data-testid="user-avatar" draggable="false" src="/img/fathead.png">
+                                            {% endif %}
                                         </div>
                                         <div class="user-name-and-place flex flex-col">
-                                            <span class="text-sm font-bold">{{ post.author.nickname }}</span>
-{#                                            <span class="text-xs font-light text-gray-900">Chiapas, Mexico</span>#}
+                                            <a href="/{{ post.author.nickname }}"><span class="text-sm font-bold">{{ post.author.nickname }}</span></a>
+                                           {% if post.localisation != '' %}
+                                            <span class="text-xs font-light text-gray-900">{{ post.localisation }}</span>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="right">
@@ -65,7 +92,7 @@
 										</span>
                                         </div>
                                         <div class="caption text-sm mt-3">
-{#                                            <b>{{ post.author }} </b>#}
+                                           <b>{{ post.author.nickname }} </b>
                                             {{ post.description }}
                                         </div>
                                         <div class="post-date mt-1">
