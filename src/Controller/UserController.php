@@ -21,11 +21,21 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index", methods={"GET"})
      */
-    public function index(UserRepository $userRepository, SessionInterface $session): Response
+    public function index(UserRepository $userRepository): Response
     {
             return $this->render('user/index.html.twig', [
                 'users' => $userRepository->findAll(),
             ]);
+
+    }
+
+    /**
+     * @Route("/deconnexion", name="user_deconnexion", methods={"GET"})
+     */
+    public function deco(SessionInterface $session): Response
+    {
+        $session->remove("login");
+        return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
 
     }
 
