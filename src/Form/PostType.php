@@ -18,6 +18,8 @@ class PostType extends AbstractType
             ->add('description')
             ->add('Localisation')
         ;
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
