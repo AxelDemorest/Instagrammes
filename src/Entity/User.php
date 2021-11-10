@@ -30,7 +30,7 @@ class User
     private $Email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ProfilePicture;
 
@@ -83,7 +83,7 @@ class User
         return $this->ProfilePicture;
     }
 
-    public function setProfilePicture(string $ProfilePicture): self
+    public function setProfilePicture(?string $ProfilePicture): self
     {
         $this->ProfilePicture = $ProfilePicture;
 
