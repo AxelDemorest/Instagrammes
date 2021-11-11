@@ -7,6 +7,7 @@ use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -34,6 +35,16 @@ class UserType extends AbstractType
                     new NotNull(),
                     new Length(['min' => 3, 'max' => 100]),
                 )
+                ]
+            )
+            ->add('Password',
+                PasswordType::class,
+                [
+                    'required' => true,
+                    'attr' => [
+                        'placeholder' => 'Password',
+                        'class' => 'text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none',
+                        'id' => 'email']
                 ]
             )
             ->add('Email',

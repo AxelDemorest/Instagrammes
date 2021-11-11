@@ -87,6 +87,14 @@ class UserController extends AbstractController
                 ]);
             }
 
+            if($find_user->getPassword() !== $user->getPassword()) {
+                $error = new FormError("Mot de passe incorrect.");
+                $form->addError($error);
+                return $this->renderForm('connexion/connexion.html.twig', [
+                    'user' => $user,
+                    'form' => $form,
+                ]);
+            }
 
             $session->set("login", $find_user->getId());
             return $this->redirectToRoute('index', [], Response::HTTP_SEE_OTHER);
