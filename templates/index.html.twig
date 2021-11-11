@@ -54,7 +54,7 @@
                                             {% endif %}
                                         </div>
                                         <div class="user-name-and-place flex flex-col">
-                                            <a href="/{{ post.author.nickname }}"><span class="text-sm font-bold">{{ post.author.nickname }}</span></a>
+                                            <a href="/user/{{ post.author.nickname }}"><span class="text-sm font-bold">{{ post.author.nickname }}</span></a>
                                            {% if post.localisation != '' %}
                                             <span class="text-xs font-light text-gray-900">{{ post.localisation }}</span>
                                             {% endif %}

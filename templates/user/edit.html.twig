@@ -1,13 +1,24 @@
-<!DOCTYPE html>
+{#<!DOCTYPE html>#}
 
-<title>Edit User</title>
+{#<title>Edit User</title>#}
+
+{#{% block body %}#}
+{#    <h1>Edit User</h1>#}
+
+{#    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}#}
+
+{#    <a href="{{ path('user_show', {'Nickname': user.Nickname}) }}">back to Profile</a>#}
+
+{#    {{ include('user/_delete_form.html.twig') }}#}
+{#{% endblock %}#}
+
+{% extends 'layout.html.twig' %}
 
 {% block body %}
-    <h1>Edit User</h1>
-
-    {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('user_index') }}">back to list</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+    <div class="h-screen bg-gray-50 flex flex-col justify-center items-center">
+        <div class="bg-white border border-gray-300 w-80 py-8 flex items-center flex-col mb-3">
+            {{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+        </div>
+        <a class="bg-white border border-gray-300 text-center w-80 py-4 hover:bg-gray-200" href="{{ path('user_show', {'Nickname': user.Nickname}) }}">back to Profile</a>
+    </div>
 {% endblock %}
