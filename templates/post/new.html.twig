@@ -3,9 +3,9 @@
 <title>New Post</title>
 
 {% block body %}
-    <h1>Create new Post</h1>
-
-    {{ include('post/_form.html.twig') }}
-
-    <a href="{{ path('post_index') }}">back to list</a>
+    <div class="h-screen bg-gray-50 flex flex-col justify-center items-center">
+        <div class="bg-white border border-gray-300 w-80 py-8 flex items-center flex-col mb-3">
+            {{ include('post/_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}
