@@ -32,19 +32,6 @@ class PostType extends AbstractType
                         new NotNull()
                     )
                 ])
-            ->add('Likes',
-                TextType::class,
-                [
-                    'required' => true,
-                    'attr' => [
-                        'value' => 0,
-                        'class' => 'text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none',
-                        'id' => 'likes'],
-                    'constraints' => array(
-                        new NotBlank(),
-                        new NotNull()
-                    )
-                ])
             ->add('description',
                 TextType::class,
                 [
@@ -71,21 +58,6 @@ class PostType extends AbstractType
                         new NotNull()
                     )
                 ]);
-        $builder->add('author', EntityType::class, [
-            // looks for choices from this entity
-            'class' => User::class,
-            'required' => true,
-            'attr' => [
-                'class' => 'text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none',
-            ],
-
-            // uses the User.username property as the visible option string
-            'choice_label' => 'nickname',
-
-            // used to render a select box, check boxes or radios
-            // 'multiple' => true,
-            // 'expanded' => true,
-        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -27,7 +27,7 @@ class Post
     /**
      * @ORM\Column(type="integer")
      */
-    private $Likes;
+    private $Likes = 0;
 
     /**
      * @ORM\Column(type="datetime")

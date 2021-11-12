@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -28,11 +30,17 @@ class PostController extends AbstractController
     /**
      * @Route("/new", name="post_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(UserRepository $userRepository, SessionInterface $session, Request $request): Response
     {
+        if(!$session->has("login")) {
+            return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
+        }
+        $sessionId = $session->get("login");
+        $user = $userRepository->findOneBy([ "id" => $sessionId ]);
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
+        $post->setAuthor($user);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
