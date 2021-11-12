@@ -50,24 +50,43 @@ class UserRepository extends ServiceEntityRepository
 
     // Find/search user by nickname
 
-    public function findUserByNickName(string $query)
-    {
+  /*   public function findOneBy(string $query)
+     {
+         $qb = $this->createQueryBuilder('u');
+         $qb
+             ->where(
+                 $qb->expr()->andX(
+                     $qb->expr()->orX(
+                         $qb->expr()->like('u.nickname', ':query'),
+
+                     ),
+                     $qb->expr()->isNotNull('u.id')
+                 )
+             )
+             ->setParameter('query' . $query );
+         ;
+         return $qb
+             ->getQuery()
+             ->getResult();
+     } */
+
+
+  /*  public function findOneBy(array $query, array $orderBy = NULL){
         $qb = $this->createQueryBuilder('u');
         $qb
-            ->where(
-                $qb->expr()->andX(
-                    $qb->expr()->orX(
-                        $qb->expr()->like('u.nickname', ':query'),
+        ->where(
+            $qb->expr()->andX($qb->expr()->orX(
+                    $qb->expr()->like('u.Nickname', ':query'),
+            ),
+        )
+             )
+             ->setParameter('query', $query );
+         ;
+         return $qb
+             ->getQuery()
+             ->getResult();
+     } */
 
-                    ),
-                    $qb->expr()->isNotNull('u.id')
-                )
-            )
-            ->setParameter('query', '%' . $query . '%')
-        ;
-        return $qb
-            ->getQuery()
-            ->getResult();
-    }
+
 
 }
