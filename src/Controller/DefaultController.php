@@ -20,8 +20,13 @@ class DefaultController extends AbstractController{
         if(!$session->has("login")) {
             return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
         } else {
+
+            $find_user = $userRepository->findOneBy(['id'=>$session->get("login")]);
+            if(!$find_user) {
+                return $this->redirectToRoute('user_deconnexion', [], Response::HTTP_SEE_OTHER);
+            }
             return $this->render('index.html.twig', [
-                'posts' => $postRepository->findAll(), 'user'=> $userRepository->findOneBy(['id'=>$session->get("login")])
+                'posts' => $postRepository->findAll(), 'user'=> $find_user
             ]);
         }
 
