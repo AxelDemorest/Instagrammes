@@ -87,16 +87,13 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="post_delete", methods={"POST"})
+     * @Route("/delete/{id}", name="post_delete")
      */
-    public function delete(Request $request, Post $post): Response
+    public function delete(Post $post): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($post);
             $entityManager->flush();
-        }
-
         return $this->redirectToRoute('post_index', [], Response::HTTP_SEE_OTHER);
     }
 }
