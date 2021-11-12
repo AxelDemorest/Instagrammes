@@ -51,6 +51,9 @@
                     <span class="text-base font-semibold text-gray-700 mr-2">
                         <a href="{{ path('user_edit', {'id': user.id}) }}" class="bg-transparent hover:bg-blue-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-600 hover:border-transparent rounded">Edit Profile</a>
                     </span>
+                        <span class="text-base font-semibold text-gray-700 mr-2">
+                        <a href="{{ path('user_deconnexion') }}" class="bg-transparent hover:bg-blue-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-600 hover:border-transparent rounded">Log out</a>
+                    </span>
                     {% endif %}
                 </div>
                 <div class="text-left pl-4 pt-3">
@@ -70,8 +73,11 @@
                     >
                         <img
                                 class="h-40 w-40 rounded-lg"
-                                src="{{ user.ProfilePicture }}"
-                                alt
+                        {% if user.ProfilePicture != '' %}
+                            src="{{ user.ProfilePicture }}"
+                        {% else %}
+                            src="/img/fathead.png"
+                        {% endif %}
                         />
                     </button>
                 </div>
