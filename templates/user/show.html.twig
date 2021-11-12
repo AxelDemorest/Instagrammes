@@ -1,38 +1,132 @@
-<!DOCTYPE html>
+{% extends 'layout.html.twig' %}
 
-<title>User</title>
+{#<!DOCTYPE html>#}
+
+{#<title>User</title>#}
+
+{#{% block body %}#}
+{#    <h1>User</h1>#}
+
+{#    <table class="table">#}
+{#        <tbody>#}
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <td>{{ user.id }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Nickname</th>#}
+{#                <td>{{ user.Nickname }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Email</th>#}
+{#                <td>{{ user.Email }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>ProfilePicture</th>#}
+{#                <td>{{ user.ProfilePicture }}</td>#}
+{#            </tr>#}
+{#            <tr>#}
+{#                <th>Biography</th>#}
+{#                <td>{{ user.biography }}</td>#}
+{#            </tr>#}
+{#        </tbody>#}
+{#    </table>#}
+
+{#    <a href="{{ path('user_index') }}">back to list</a>#}
+
+{#    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>#}
+
+{#    {{ include('user/_delete_form.html.twig') }}#}
+{#{% endblock %}#}
 
 {% block body %}
-    <h1>User</h1>
+    <!--body start-->
+    <!--profile data-->
+    <div class="bg-gray-100 h-auto px-48">
+        <div class="flex md:flex-row-reverse flex-wrap">
+            <div class="w-full md:w-3/4 p-4 text-center">
+                <div class="text-left pl-4 pt-3">
+                    <span class="text-base text-gray-700 text-2xl mr-2">{{ user.Nickname }}</span>
+                    {% if current %}
+                    <span class="text-base font-semibold text-gray-700 mr-2">
+                        <a href="{{ path('user_edit', {'id': user.id}) }}" class="bg-transparent hover:bg-blue-500 text-gray-700 font-semibold hover:text-white py-2 px-4 border border-gray-600 hover:border-transparent rounded">Edit Profile</a>
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="text-left pl-4 pt-3">
+                    {% if user.biography != '' %}
+                        <p class="text-base font-medium text-gray-700 mr-2">{{ user.biography }}</p>
+                    {% endif %}
+                </div>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Nickname</th>
-                <td>{{ user.Nickname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.Email }}</td>
-            </tr>
-            <tr>
-                <th>ProfilePicture</th>
-                <td>{{ user.ProfilePicture }}</td>
-            </tr>
-            <tr>
-                <th>Biography</th>
-                <td>{{ user.biography }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('user_index') }}">back to list</a>
-
-    <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+            <div class="w-full md:w-1/4 p-4 text-center">
+                <div class="w-full relative md:w-3/4 text-center mt-8">
+                    <button
+                            class="flex rounded-full"
+                            id="user-menu"
+                            aria-label="User menu"
+                            aria-haspopup="true"
+                    >
+                        <img
+                                class="h-40 w-40 rounded-lg"
+                                src="{{ user.ProfilePicture }}"
+                                alt
+                        />
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!--post icon and title-->
+        <div class="flex flex-row mt-4 justify-center mr-16">
+            <div class="flex text-gray-700 text-center py-2 m-2 pr-5">
+                <div class="flex inline-flex ml-2 mt-1">
+                    <h3 class="text-sm font-bold text-gray-800 mr-2">POSTS</h3>
+                </div>
+                {% for post in posts %}
+                    <div class="feed-item border border-gray-400 rounded bg-white">
+                        <div class="header border-b p-4 flex justify-between items-center">
+                            <div class="flex flex-row items-center">
+                                <div class="user-img h-10 w-10 border rounded-full overflow-hidden mr-4">
+                                    {% if post.author.ProfilePicture != '' %}
+                                        <img alt="pp" class="_6q-tv" data-testid="user-avatar" draggable="false" src="{{ post.author.ProfilePicture }}">
+                                    {% else %}
+                                        <img alt="pp" class="_6q-tv" data-testid="user-avatar" draggable="false" src="/img/fathead.png">
+                                    {% endif %}
+                                </div>
+                                <div class="user-name-and-place flex flex-col">
+                                    <a href="/{{ user.Nickname }}"><span class="text-sm font-bold">{{ user.Nickname }}</span></a>
+                                    {% if post.localisation != '' %}
+                                        <span class="text-xs font-light text-gray-900">{{ post.localisation }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="right">
+                                <svg aria-label="More options" class="_8-yf5 " fill="#262626" height="16" viewBox="0 0 48 48" width="16">
+                                    <circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                                    <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                                    <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="feed-img flex justify-center">
+                            <img src="{{ post.picture }}" alt="">
+                        </div>
+                        <div class="card-footer p-4">
+                            <div class="top">
+                                <div class="icons flex flex-row justify-between items-center">
+                                </div>
+                                <div class="likes mt-1">
+										<span class="font-bold text-sm">
+											{{ post.likes }} likes
+										</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

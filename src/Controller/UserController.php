@@ -112,10 +112,17 @@ class UserController extends AbstractController
     public function show(User $user, SessionInterface $session): Response
     {
         if($session->has("login")) {
+            if($session->get('login') === $user->getId()){
+                $current_user = true;
+            } else {
+                $current_user = false;
+            }
+
             return $this->render('user/show.html.twig', [
-                'user' => $user,
+                'user' => $user, 'posts' => $user->getPosts(), 'current' => $current_user
             ]);
         } else {
+
             return $this->redirectToRoute('user_connexion', [], Response::HTTP_SEE_OTHER);
         }
 
