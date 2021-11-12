@@ -2,7 +2,10 @@
 
 {% block body %}
     <div class="h-screen bg-gray-50 flex flex-col justify-center items-center">
-        <div class="bg-white border border-gray-300 w-80 py-8 flex items-center flex-col mb-3">
+        <a href="{{ path("index") }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Home
+        </a>
+        <div class="bg-white border border-gray-300 w-80 my-6 py-8 flex items-center flex-col mb-3">
             {{ include('post/_form.html.twig') }}
         </div>
     </div>
