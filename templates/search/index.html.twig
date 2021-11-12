@@ -1,24 +1,20 @@
 <!DOCTYPE html>
 
-<title>Hello SearchController!</title>
-
 {% block body %}
-
-{% if app.request.method == 'POST' %}
     <div>
-        {% if (user | length == 0) or (user != user.Nickname) %}
-            <h4>Aucun résultat pour votre recherche.</h4>
+        {% if (Pseudo | length == 0) %}
+            <h4>No result for your search.</h4>
         {% else %}
-            <h3 class="mt-3">Vos résultats de recherche :</h3>
-            {% for Nickname in User %}
+            <h3 class="mt-3">Your search results :</h3>
+            {% for Nickname in Pseudo %}
                 <div class="mt-3 p-3 bg-light border rounded">
-                    <a href="{{ path('user_show', {'slug': user.slug}) }}">
-                        <h6 class="text-dark"><i class="bi bi-arrow-down-right-square-fill text-primary"></i> {{ user.Nickname }}</h6>
+                    <a href="{{ path('Pseudo_show', {'slug': Nickname.slug}) }}">
+                        <h6 class="text-dark"><i class="bi bi-arrow-down-right-square-fill text-primary"></i> {{ Pseudo.Nickname }}</h6>
                     </a>
                 </div>
             {% endfor %}
         {% endif %}
     </div>
-{% endif %}
+
 
 {% endblock %}

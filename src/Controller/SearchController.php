@@ -16,55 +16,24 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SearchController extends AbstractController
 {
-    /**
-     * @Route("/search", name="search")
-     */
-    public function index(): ResponseAlias
-    {
-        return $this->render('search/index.html.twig', [
-            'controller_name' => 'SearchController',
-        ]);
-    }
 
-    public function searchBar(): ResponseAlias
-    {
-        $form = $this->createFormBuilder()
-
-            ->add('Recherche', TextType::class, [
-                'label' =>false,
-        'attr' => [
-            'placeholder' => 'Recherche'
-            ]
-    ])
-
-            ->add('Ok', SubmitType::class, [
-                'label' =>false,
-                'attr' => [
-                    'class' => 'btn btn-primary'
-                ]
-            ])
-            ->getForm();
-        return $this->render('search/searchBar.html.twig', [
-            'form' => $form->createView()
-        ]);
-    }
 
     /**
-     * @Route("/handleSearch", name="handleSearch", methods={"GET","POST"})
+     * @Route("/handleSearch/{Search}", name="handleSearch", methods={"GET","POST"})
      * @param Request $request
      * @param UserRepository $repo
      * @return ResponseAlias
      */
 
-    public function handleSearchUser (Request $request, UserRepository $repo): ResponseAlias
+    public function handleSearchUser (Request $request, UserRepository $repo, string $Search): ResponseAlias
     {
-        $query = $request->request->get('form')['Recherche'];
 
-          if($query) {
-           $users = $repo->findOneBy($query);
+          if($Search) {
+
+           $users = $repo->findOneBy(['Nickname'=>$Search]);
         }
-          return $this->render('search/index.html.twig', [
-           'Pseudo' => $users
+          return $this->renderForm('search/index.html.twig', [
+           'Pseudo' => $users,
         ]);
     }
 
