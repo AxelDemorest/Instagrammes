@@ -37,7 +37,7 @@ class PostType extends AbstractType
                 [
                     'required' => true,
                     'attr' => [
-                        'placeholder' => 'Likes',
+                        'value' => 0,
                         'class' => 'text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none',
                         'id' => 'likes'],
                     'constraints' => array(
@@ -45,15 +45,6 @@ class PostType extends AbstractType
                         new NotNull()
                     )
                 ])
-            ->add('Date',
-                DateType::class,
-                [
-                    'required' => true,
-                    'attr' => [
-                        'class' => 'text-xs w-full mb-2 rounded border bg-gray-100 border-gray-300 px-2 py-2 focus:outline-none focus:border-gray-400 active:outline-none',
-                        'id' => 'description']
-                ]
-            )
             ->add('description',
                 TextType::class,
                 [
